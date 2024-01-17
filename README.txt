@@ -1,2 +1,2 @@
-- Ejercicio realizado en JAVA 17
+- Ejercicio realizado en JAVA 17 y pseudocodigo
 - IntelliJ IDEA 2023.2.5
