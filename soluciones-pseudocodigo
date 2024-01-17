@@ -1,0 +1,129 @@
+1. Desarrollo en menor tiempo posible sin tener en cuenta los recursos:
+
+Planteamiento:
+
+La forma mas sencilla que se me ocurre es recorrer el Array con dos bucles anidados, comparando la suma de los 2 indices con el valor de X (sumatoria).
+Esta forma es sencilla en cuanto a codigo pero es poco eficiente, ya que al tener dos bucles anidados la eficiencia en el peor de los casos seria de O(n^2).
+
+
+
+Pseudocodigo:
+
+
+
+Funcion comprobarSumatoria (E numeros: Numeros, E sumatoria: Entero) : booleano //el tipo Numeros es un arreglo de enteros declarado anteriormente en la seccion de registros
+
+    i,j : Entero
+    sumatoriaComprobada : Booleano
+
+    i=1
+    j=2
+    sumatoriaComprobada= false
+
+    Mientras sumatoriaComprobada == false && i < numeros.tamaño
+
+
+        Mientras sumatoriaComprobada == false && j <= numeros.tamaño
+
+            Si numeros[i] + numeros[j] == sumatoria
+                sumatoriaComprobada = true
+            Sino
+                j = j+1
+        Fin Mientras
+
+        i = i+1
+        j = i+1
+
+    Fin Mientras
+
+    devolver sumatoriaComprobada
+
+Fin Funcion
+
+
+
+
+2. Mejorando la eficiencia sin tener en cuenta el tiempo de desarrollo:
+
+Planteamiento:
+
+Analizando el problema con mas paciencia y detenidamente pude ver que podemos mejorar la eficiencia usando librerias de estructuras de datos (como Utils de JAVA por ejemplo).
+Usando estas herramientas podemos mejorar considerablemente la eficiencia del algoritmo .Estas librerias existen en los principales lenguajes de programacion actuales pudiendo seleccionar el lenguaje a usar para mejorar aun mas la eficiencia. Dada la naturaleza simple del problema podria usarse algun lenguaje interpretado ya que la compilacion podria llevar a perder tiempo de ejecucion y si el lenguaje utiliza una maquina virtual (por ejemplo JAVA con su JVM) es un gasto de memoria innecesario. Python podria ser una buena opcion para el desarrollo de este algoritmo.
+
+Este enfoque mejora la eficiencia considerablemente pero añade tiempo de desarrollo, ya que el programador debe instruirse en el lenguaje y en la libreria a usar.
+
+En el siguiente codigo utilizare lenguaje JAVA ya que es con el que estoy mayormente familiarizado.
+
+
+
+Codigo:
+
+
+
+
+public boolean comprobarSumatoria(int[] numeros, int sumatoria){
+
+    //diccionario donde se guardan los numeros del array en las keys, en caso de que haya un numero repetido en el array, el value del numero aumenta +1 y de esta manera se
+    //pueden almacenar numeros repetidos
+
+    Map<Integer, Integer> mapNumeros = new HashMap<>();
+
+    for (int numero : numeros){
+        mapNumeros.put(numero, mapNumeros.getOrDefault(numero, 0) + 1);  
+    }
+
+
+    for (int numero : numeros){
+
+        int complemento = sumatoria - numero;
+
+        //condicional en caso de que la sumatoria sea igual a numero * 2  (como en el ejemplo donde el arreglo es [1,2,4,4] y requiredSum es 8)
+        //comprueba si el value del numero es mayor a 1, si es true significa que el numero esta repetido en el arreglo y evita que de un falso positivo por sumar el mismo 
+        //indice 2 veces
+
+        if (complemento == numero && mapNumeros.get(numero) > 1){
+            return true;
+        }
+
+        if(complemento != numero && mapNumeros.containsKey(complemento)){
+            return true;
+        }
+    }
+    return false
+}
+
+
+
+
+Explicacion:
+
+Al principio de la funcion creamos un diccionario y pasamos los numeros del arreglo al diccionario. Con el metodo getOrDefault podemos incrementar el value de un numero en caso de que ya se encuentre en el diccionario. El metodo se utiliza para obtener el value de una key, y, en caso de no existir, asignar un valor por default (en este caso 0).
+De esta manera al utilizar el metodo put, si no hay ninguna key automaticamente se pone el value 1 (0 por el getOrDefault + 1). Y en caso de que se haya repetido el numero, se actualizara el value de la key (value actual + 1).
+
+
+
+Ejemplo con el arreglo [1,2,4,4]:
+
+Key     Value
+1       1   
+2       1   
+4       2
+
+Luego recorremos el arreglo, restamos la sumatoria con el valor de la posicion actual y chequeamos si el complemento se encuentra dentro del diccionario. Al ser un HashMap esta busqueda es mas eficiente que un metodo de busqueda lineal.
+
+En caso de que el complemento sea igual al valor de la posicion, debe chequearse que el value dentro de la key sea mayor a 1 (confirmando que el arreglo hay un numero repetido), de esta manera se evita dar un falso positivo sumando 2 veces el mismo numero.
+
+Al final si ninguna condicion se cumple en ningun elemento del arreglo, se retorna false.
+
+De esta manera el algoritmo mantiene una eficiencia de O(n), mejorando considerablemente la velocidad con respecto a la primer solucion.
+
+
+
+
+
+
+
+
+
+
+
