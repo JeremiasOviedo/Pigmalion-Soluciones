@@ -23,7 +23,7 @@ Funcion comprobarSumatoria (E numeros: Numeros, E sumatoria: Entero) : booleano 
     Mientras sumatoriaComprobada == false && i < numeros.tamaño
 
 
-        Mientras sumatoriaComprobada == false && j <= numeros.tamaño
+        Mientras sumatoriaComprobada == false && j < numeros.tamaño
 
             Si numeros[i] + numeros[j] == sumatoria
                 sumatoriaComprobada = true
